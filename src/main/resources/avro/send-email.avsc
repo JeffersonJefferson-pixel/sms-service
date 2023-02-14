@@ -1,0 +1,19 @@
+{
+  "namespace": "com.camdigikey.smsservice.schema",
+  "type": "record",
+  "name": "SendSmsRequestMsg",
+  "fields": [
+    {
+      "name": "sender",
+      "type": "string"
+    },
+    {
+      "name": "receiver",
+      "type": "string"
+    },
+    {
+      "name": "message",
+      "type": "string"
+    }
+  ]
+}

@@ -1,0 +1,50 @@
+.env:
+  directory: ./
+  filename: .env
+  ignoreIfMalformed: true
+  ignoreIfMissing: true
+  systemProperties: true
+  prefix: ""
+
+spring:
+  application:
+    name: sms-service
+
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/email-service}
+    username: ${SPRING_DATASOURCE_USERNAME:postgres}
+    password: ${SPRING_DATASOURCE_PASSWORD:postgres}
+
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        jdbc:
+          lob:
+            non_contextual_creation: true
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL:update}
+
+  kafka:
+    properties:
+      schema.registry.url: ${SCHEMA_REGISTRY:http://localhost:8081}
+    bootstrap-servers: ${BOOTSTRAP_SERVERS:localhost:9092}
+
+sms:
+  provider: ${SMS_PROVIDER:twillio}
+  twillio:
+    account-sid: ${TWILLIO_ACCOUNT_SID}
+    auth-token: ${TWILLIO_AUTH_TOKEN}
+    phone-number: ${TWILLIO_PHONE_NUMBER}
+  plasgate:
+    sender: ${PLASGATE_SENDER}
+    private-key: ${PLASGATE_PRIVATE_KEY}
+    secret-key: ${PLASGATE_SECRET_KEY}
+
+kafka:
+  topic:
+    send-sms:
+      request: send-sms-request
+      reply: send-sms-reply

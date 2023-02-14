@@ -1,0 +1,40 @@
+[
+  {
+    "namespace": "com.camdigikey.smsservice.schema",
+    "type": "record",
+    "name": "SendSmsReplyMsg",
+    "fields": [
+      {
+        "name": "sender",
+        "type": "string"
+      },
+      {
+        "name": "receiver",
+        "type": "string"
+      }
+    ]
+  },
+  {
+    "namespace": "com.camdigikey.smsservice.schema",
+    "type": "record",
+    "name": "GenericReplyMsg",
+    "fields": [
+      {
+        "name": "code",
+        "type": "int"
+      },
+      {
+        "name": "data",
+        "type": [
+          "null",
+          "com.camdigikey.smsservice.schema.SendSmsReplyMsg"
+        ],
+        "default": null
+      },
+      {
+        "name": "message",
+        "type": "string"
+      }
+    ]
+  }
+]

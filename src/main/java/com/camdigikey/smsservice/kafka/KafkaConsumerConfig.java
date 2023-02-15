@@ -29,7 +29,6 @@ public class KafkaConsumerConfig {
   private String registry;
 
   public Map<String, Object> consumerConfig() {
-    log.info("init consumer config");
     Map<String, Object> props = new HashMap<>();
     props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
     props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);

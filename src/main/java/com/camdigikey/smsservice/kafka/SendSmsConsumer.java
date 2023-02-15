@@ -3,6 +3,7 @@ package com.camdigikey.smsservice.kafka;
 import com.camdigikey.smsservice.dto.SendSmsRequestDto;
 import com.camdigikey.smsservice.exception.SmsException;
 import com.camdigikey.smsservice.mapper.MapStructMapper;
+import com.camdigikey.smsservice.model.SendSmsRequest;
 import com.camdigikey.smsservice.service.ISmsService;
 import com.camdigikey.smsservice.schema.GenericReplyMsg;
 import com.camdigikey.smsservice.schema.SendSmsReplyMsg;
@@ -10,6 +11,7 @@ import com.camdigikey.smsservice.schema.SendSmsRequestMsg;
 import com.camdigikey.smsservice.dto.SendSmsResponseDto;
 
 
+import com.camdigikey.smsservice.service.SendSmsRequestService;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,17 +27,17 @@ import java.util.concurrent.CountDownLatch;
 @Component
 public class SendSmsConsumer {
 
-  private MapStructMapper mapper;
+  private SendSmsRequestService sendSmsRequestSvc;
 
-  private ISmsService smsSvc;
+  private MapStructMapper mapper;
 
   @Getter
   private CountDownLatch latch;
 
   @Autowired
-  public SendSmsConsumer(MapStructMapper mapper, ISmsService smsSvc) {
+  public SendSmsConsumer(SendSmsRequestService sendSmsRequestSvc, MapStructMapper mapper) {
     this.mapper = mapper;
-    this.smsSvc = smsSvc;
+    this.sendSmsRequestSvc = sendSmsRequestSvc;
     this.latch = new CountDownLatch(1);
   }
 
@@ -57,7 +59,9 @@ public class SendSmsConsumer {
         .build();
 
     try {
-      smsSvc.sendSms(requestDto);
+      SendSmsRequest request = sendSmsRequestSvc.saveRequest(requestDto);
+
+      sendSmsRequestSvc.sendSmsWithRetry(request);
 
       reply = GenericReplyMsg.newBuilder()
           .setCode(0)

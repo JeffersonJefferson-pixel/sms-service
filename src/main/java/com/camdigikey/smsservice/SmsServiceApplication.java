@@ -16,17 +16,17 @@ public class SmsServiceApplication {
   }
 
 
-  @Bean
-	@Profile("!test")
-  CommandLineRunner commandLineRunner(SendSmsProducer sendSmsProducer) {
-		return args -> {
-      SendSmsRequestDto requestDto = SendSmsRequestDto.builder()
-          .sender("+19035009778")
-          .receiver("+85561601260")
-          .message("testing!")
-          .build();
-
-      sendSmsProducer.produceSendSmsRequestMsg(requestDto);
-		};
-	}
+//  @Bean
+//	@Profile("!test")
+//  CommandLineRunner commandLineRunner(SendSmsProducer sendSmsProducer) {
+//		return args -> {
+//      SendSmsRequestDto requestDto = SendSmsRequestDto.builder()
+//          .sender("+19035009778")
+//          .receiver("+85561601260")
+//          .message("testing!")
+//          .build();
+//
+//      sendSmsProducer.produceSendSmsRequestMsg(requestDto);
+//		};
+//	}
 }

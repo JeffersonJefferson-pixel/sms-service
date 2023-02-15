@@ -1,6 +1,7 @@
 package com.camdigikey.smsservice.service;
 
-import com.camdigikey.smsservice.dto.SendSmsRequestDto;
+import com.camdigikey.smsservice.model.SendSmsRequest;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -21,15 +22,15 @@ public class TwillioService implements ISmsService {
   @Value("${sms.twillio.phone-number}")
   private String phoneNumber;
 
-  public void sendSms(SendSmsRequestDto requestDto) {
+  public void sendSms(SendSmsRequest request) {
     log.info("Sending SMS with Twillio");
     Twilio.init(accountSid, authToken);
     Message message = Message.creator(
-            new PhoneNumber(requestDto.getReceiver()),
+            new PhoneNumber(request.getReceiver()),
             new PhoneNumber(phoneNumber),
-            requestDto.getMessage())
+            request.getMessage())
         .create();
 
-    log.info("SMS delivery is in progress!");
+    log.info("Received response from Twillio: {}", message);
   }
 }

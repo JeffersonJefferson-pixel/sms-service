@@ -11,7 +11,7 @@ spring:
     name: sms-service
 
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/email-service}
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/sms-service}
     username: ${SPRING_DATASOURCE_USERNAME:postgres}
     password: ${SPRING_DATASOURCE_PASSWORD:postgres}
 
@@ -32,19 +32,36 @@ spring:
       schema.registry.url: ${SCHEMA_REGISTRY:http://localhost:8081}
     bootstrap-servers: ${BOOTSTRAP_SERVERS:localhost:9092}
 
+  config:
+    import: optional:configserver:http://localhost:8888
+
+server:
+  port: ${SERVER_PORT:8080}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include:
+          - refresh
+
 sms:
   provider: ${SMS_PROVIDER:twillio}
   twillio:
-    account-sid: ${TWILLIO_ACCOUNT_SID}
-    auth-token: ${TWILLIO_AUTH_TOKEN}
-    phone-number: ${TWILLIO_PHONE_NUMBER}
+    account-sid: ${TWILLIO_ACCOUNT_SID:abc}
+    auth-token: ${TWILLIO_AUTH_TOKEN:abc}
+    phone-number: ${TWILLIO_PHONE_NUMBER:abc}
   plasgate:
-    sender: ${PLASGATE_SENDER}
-    private-key: ${PLASGATE_PRIVATE_KEY}
-    secret-key: ${PLASGATE_SECRET_KEY}
+    sender: ${PLASGATE_SENDER:abc}
+    private-key: ${PLASGATE_PRIVATE_KEY:abc}
+    secret-key: ${PLASGATE_SECRET_KEY:abc}
 
 kafka:
   topic:
     send-sms:
       request: send-sms-request
       reply: send-sms-reply
+
+retry:
+  maxAttempts: 3
+  retry.maxDelay: 100

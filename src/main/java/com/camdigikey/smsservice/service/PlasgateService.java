@@ -4,6 +4,7 @@ import com.camdigikey.smsservice.dto.PlasgateSendSmsRequestDto;
 import com.camdigikey.smsservice.dto.SendSmsRequestDto;
 import com.camdigikey.smsservice.exception.SmsException;
 import com.camdigikey.smsservice.mapper.MapStructMapper;
+import com.camdigikey.smsservice.model.SendSmsRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -30,24 +31,21 @@ public class PlasgateService implements ISmsService {
 
   private WebClient webClient;
 
-  private RestTemplate restTemplate;
   private MapStructMapper mapper;
 
   @Autowired
   public PlasgateService(
       WebClient.Builder webClientBuilder,
-      MapStructMapper mapper,
-      RestTemplate restTemplate
+      MapStructMapper mapper
   ) {
     this.webClient = webClientBuilder.baseUrl("https://cloudapi.plasgate.com").build();;
     this.mapper = mapper;
-    this.restTemplate = restTemplate;
   }
 
-  public void sendSms(SendSmsRequestDto requestDto) throws SmsException{
+  public void sendSms(SendSmsRequest request) throws SmsException{
     log.info("Sending SMS with Plasgate");
     PlasgateSendSmsRequestDto plasgateRequestDto =
-        mapper.sendSmsReqDtoToPlasgateSendSmsReqDto(requestDto, sender);
+        mapper.sendSmsReqToPlasgateSendSmsReqDto(request, sender);
 
     Mono<String> resp = webClient.post()
         .uri(uriBuilder -> uriBuilder

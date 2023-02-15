@@ -1,6 +1,7 @@
 package com.camdigikey.smsservice.config;
 
 import com.camdigikey.smsservice.service.ISmsService;
+import com.camdigikey.smsservice.service.MekongService;
 import com.camdigikey.smsservice.service.PlasgateService;
 import com.camdigikey.smsservice.service.TwillioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +29,8 @@ public class SmsConfig {
         return appContext.getBean(TwillioService.class);
       case "plasgate":
         return appContext.getBean(PlasgateService.class);
+      case "mekong":
+        return appContext.getBean(MekongService.class);
       default:
         return appContext.getBean(TwillioService.class);
     }

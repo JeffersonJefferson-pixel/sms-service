@@ -16,7 +16,7 @@ import reactor.core.publisher.Mono;
 
 @Service
 @Slf4j
-public class MekongService {
+public class MekongService implements ISmsService {
 
   @Value("${sms.mekong.username}")
   private String username;

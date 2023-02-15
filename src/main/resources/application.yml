@@ -55,6 +55,9 @@ sms:
     sender: ${PLASGATE_SENDER:abc}
     private-key: ${PLASGATE_PRIVATE_KEY:abc}
     secret-key: ${PLASGATE_SECRET_KEY:abc}
+  mekong:
+    username: ${MEKONG_USERNAME:abc}
+    pass: ${MEKONG_PASS:abc}
 
 kafka:
   topic:

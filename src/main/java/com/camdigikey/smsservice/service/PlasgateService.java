@@ -42,30 +42,33 @@ public class PlasgateService implements ISmsService {
     this.mapper = mapper;
   }
 
-  public void sendSms(SendSmsRequest request) throws SmsException{
+  public void sendSms(SendSmsRequest request) throws SmsException {
     log.info("Sending SMS with Plasgate");
     PlasgateSendSmsRequestDto plasgateRequestDto =
         mapper.sendSmsReqToPlasgateSendSmsReqDto(request, sender);
 
-    Mono<String> resp = webClient.post()
-        .uri(uriBuilder -> uriBuilder
-            .path("/rest/send")
-            .queryParam("private_key", privateKey)
-            .build()
-        )
-        .headers(httpHeaders -> {
-          httpHeaders.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-          httpHeaders.set("X-Secret", secretKey);
-        })
-        .body(Mono.just(plasgateRequestDto), PlasgateSendSmsRequestDto.class)
-        .retrieve()
-        .onStatus(HttpStatus::isError, response -> Mono.error(new SmsException()))
-        .bodyToMono(String.class);
+    try {
+      String resp = webClient.post()
+          .uri(uriBuilder -> uriBuilder
+              .path("/rest/send")
+              .build()
+          )
+          .headers(httpHeaders -> {
+            httpHeaders.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+            httpHeaders.set("X-Secret", secretKey);
+          })
+          .body(Mono.just(plasgateRequestDto), PlasgateSendSmsRequestDto.class)
+          .retrieve()
+          .bodyToMono(String.class)
+          .onErrorResume(e -> Mono.error(SmsException::new))
+          .block();
 
-    resp.subscribe(value -> {
-      log.info("Response from Plasgate: {}", value);
-    });
+      log.info("Response from Plasgate: {}", resp);
+    } catch (SmsException e) {
+      throw e;
+    }
+
+
   }
-
 
 }

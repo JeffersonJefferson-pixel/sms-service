@@ -1,6 +1,6 @@
 package com.camdigikey.smsservice.exception;
 
-public class SmsException extends Exception {
+public class SmsException extends RuntimeException {
 
   public static final String ERROR_MESSAGE =
       "SMS service is unavailable";

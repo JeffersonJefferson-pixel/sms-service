@@ -51,6 +51,7 @@ public class PlasgateService implements ISmsService {
       String resp = webClient.post()
           .uri(uriBuilder -> uriBuilder
               .path("/rest/send")
+              .queryParam("private_key", privateKey)
               .build()
           )
           .headers(httpHeaders -> {

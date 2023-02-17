@@ -1,0 +1,14 @@
+services:
+  sms-service:
+    image: jeffersonjeffersonpixel/sms-service:0.0.1-SNAPSHOT
+    container_name: sms-service
+    ports:
+      - "8080:8080"
+    networks:
+      - camdigikey
+    env_file:
+      - ./.env-docker
+
+networks:
+  camdigikey:
+    driver: bridge

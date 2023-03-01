@@ -1,6 +1,6 @@
 .env:
   directory: ./
-  filename: .env
+  filename: .env-docker
   ignoreIfMalformed: true
   ignoreIfMissing: true
   systemProperties: true
@@ -11,7 +11,7 @@ spring:
     name: sms-service
 
   datasource:
-    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/sms-service}
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://sms-postgres:5432/sms-service}
     username: ${SPRING_DATASOURCE_USERNAME:postgres}
     password: ${SPRING_DATASOURCE_PASSWORD:postgres}
 
@@ -29,11 +29,11 @@ spring:
 
   kafka:
     properties:
-      schema.registry.url: ${SCHEMA_REGISTRY:http://localhost:8081}
-    bootstrap-servers: ${BOOTSTRAP_SERVERS:localhost:9092}
+      schema.registry.url: ${SCHEMA_REGISTRY:http://schema-registry:8081}
+    bootstrap-servers: ${BOOTSTRAP_SERVERS:broker:29092}
 
   config:
-    import: ${CONFIG_SERVER:optional:configserver:http://localhost:8888}
+    import: ${CONFIG_SERVER:optional:configserver:http://config-server:8888}
 
 server:
   port: ${SERVER_PORT:8080}

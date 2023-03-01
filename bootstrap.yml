@@ -1,4 +1,12 @@
 services:
+  config-server:
+    image: jeffersonjeffersonpixel/config-server:0.0.1-SNAPSHOT
+    container_name: config-server
+    ports:
+      - "8888:8888"
+    networks:
+      - camdigikey
+
   zookeper:
     image: confluentinc/cp-zookeeper:7.0.1
     container_name: zookeeper

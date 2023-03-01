@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.camdigikey</groupId>
     <artifactId>sms-service</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.2-SNAPSHOT</version>
     <name>sms-service</name>
     <description>sms-service</description>
     <properties>

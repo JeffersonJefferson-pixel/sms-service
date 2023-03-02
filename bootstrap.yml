@@ -3,7 +3,7 @@ services:
     image: jeffersonjeffersonpixel/config-server:0.0.1-SNAPSHOT
     container_name: config-server
     ports:
-      - "8888:8888"
+      - "${CONIG_SERVER_PORT}:8888"
     networks:
       - camdigikey
 

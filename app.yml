@@ -3,7 +3,7 @@ services:
     image: jeffersonjeffersonpixel/sms-service:${VERSION}
     container_name: sms-service
     ports:
-      - "8080:${SERVER_PORT}"
+      - "${SMS_PORT}:${SERVER_PORT}"
     networks:
       - camdigikey
     environment:
